@@ -1,5 +1,5 @@
 # JarvisChatGPT
-Jarvis powered by GPT-3.5/GPT-4
+ChatGPT powered voice assistant named Jarvis, uses GPT-3.5-Turbo by default, GPT-4 if you make edits in the main.py file.
 
 NOTE: You need an openai API key to use Jarvis.
 
