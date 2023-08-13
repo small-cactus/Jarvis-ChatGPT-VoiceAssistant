@@ -1,0 +1,1 @@
+api_key="replace this text with your own openai API key, keep the quotes"
