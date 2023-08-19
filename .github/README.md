@@ -31,15 +31,19 @@ pip install openai SpeechRecognition pyttsx3 pyaudio
 
 ## General Information
 - JarvisChatGPT does not have a token limit. If you ask it to generate a feature film-length script, be prepared to wait for its response. Alternatively, you can close and reopen Jarvis to skip its response.
+  
 - You can modify the system prompt by changing the code within the `main.py` file. Use `CTRL + F` to locate it easily. The system prompt in the code is: `system_prompt =`
-
+  
 - You can customize the wake word by locating the following section in the code and changing "Jarvis" to any other desired word. Look for: `startswith("jarvis")`
-
+  
+- For better weather functionality, replace the placeholders in the `apikey.py` with your respective information.
+  
 - JarvisChatGPT might be affected by loud noises that and will cause microphone cutouts making him unable to hear you. It may interpret these noises as speech. However, it won't consume tokens for non-speech sounds.
-
+  
 - The wake word works only if it is the first word spoken in a sentence. For instance, "Hey there, Jarvis, who are you?" will NOT trigger a response. However, "Jarvis, who are you?" will work as intended.
-
+  
 - A list of vocal commands is provided when you run the `Run.bat` file.
+
 
 ## Changelog
 - **Added weather support to Jarvis:** Jarvis can now call a weather API and retrieve weather information by himself.
