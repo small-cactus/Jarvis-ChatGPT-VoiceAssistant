@@ -1,3 +1,41 @@
+import requests
+import openai
+import json
+from apikey import weather_api_key, DEFAULT_LOCATION, UNIT
+
+def get_current_weather(location=None, unit=UNIT):
+    """Get the current weather in a given location and detailed forecast"""
+    if location is None:
+        location = DEFAULT_LOCATION
+    API_KEY = weather_api_key  
+    base_url = "http://api.weatherapi.com/v1/forecast.json"
+    params = {
+        "key": API_KEY,
+        "q": location,
+        "days": 1
+    }
+    
+    response = requests.get(base_url, params=params)
+    data = response.json()
+
+    if response.status_code == 200 and 'current' in data and 'forecast' in data and data['forecast']['forecastday']:
+        weather_info = {
+            "location": location,
+            "temperature": data["current"]["temp_f"],
+            "unit": "fahrenheit",
+            "forecast": data["current"]["condition"]["text"],
+            "will_it_rain": data['forecast']['forecastday'][0]['day']['daily_will_it_rain'],
+            "chance_of_rain": data['forecast']['forecastday'][0]['day']['daily_chance_of_rain'],
+            "uv": data["current"]["uv"]  
+        }
+    else:
+        weather_info = {
+            "error": "Unable to retrieve the current weather."
+        }
+
+    return weather_info
+
+
 import openai
 from apikey import api_key
 
@@ -10,11 +48,11 @@ engine = pyttsx3.init()
 
 voices = engine.getProperty('voices')
 for voice in voices:
-    if "george" in voice.name.lower():  # <- this part does nothing and I dont feel like removing it
+    if "george" in voice.name.lower():  
         engine.setProperty('voice', voice.id)
         break
 
-system_prompt = "You are Jarvis, a concise and helpful assistant. Keep ALL responses as concise as possible."
+system_prompt = "You are Jarvis, a concise and helpful assistant. Keep ALL responses as concise as possible. You can get the weather using the function."
 conversation = [{"role": "system", "content": system_prompt}]
 
 def speak(text):
@@ -33,16 +71,82 @@ def listen():
     print("Didn't get that. Try again")
     return ""
 
+
+available_functions = {
+    "get_current_weather": get_current_weather
+}
+
+
+conversation_history = []  
+
 def ask(question):
-  conversation.append({"role": "user", "content": question})
-  response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
-      messages=conversation
-  )
-  conversation.append({"role": "assistant", "content": response["choices"][0]["message"]["content"]})
+    global conversation_history
 
-  return response["choices"][0]["message"]["content"]  
+    if not question:
+        return "Sorry, I didn't receive a valid query."
 
+    
+    messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": question}]
+    if conversation_history:
+        messages = conversation_history + [{"role": "user", "content": question}]
+    else:
+        conversation_history.append({"role": "system", "content": system_prompt})
+        
+    functions = [
+        {
+            "name": "get_current_weather",
+            "description": "Get the current weather data for any given location, defaults to clearwater FL.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "The city and state, e.g. Clearwater, FL",
+                    },
+                    "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                },
+                "required": [],
+            },
+        }
+    ]
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        functions=functions,
+        function_call="auto",
+    )
+    response_message = response["choices"][0]["message"]
+
+    conversation_history.append(response_message)
+
+    if response_message.get("function_call"):
+        function_name = response_message["function_call"]["name"]
+        function_args = json.loads(response_message["function_call"]["arguments"])
+        function_response = get_current_weather(
+            location=function_args.get("location", DEFAULT_LOCATION),
+            unit=function_args.get("unit", "fahrenheit"),
+        )
+        
+        if not function_response:
+            function_response = "Sorry, I couldn't fetch the data."
+
+        messages.append(
+            {
+                "role": "function",
+                "name": function_name,
+                "content": json.dumps(function_response),
+            }
+        )  
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+        )  
+
+        
+        conversation_history.append(response["choices"][0]["message"])
+
+    return response["choices"][0]["message"]["content"]
 def reply(question):
   response = ask(question)
   
