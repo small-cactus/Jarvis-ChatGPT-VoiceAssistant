@@ -1,6 +1,8 @@
 # <span style="color: #3498db;">JarvisChatGPT</span>
 
+
 JarvisChatGPT is a voice assistant powered by ChatGPT, named <span style="font-style: italic;">Jarvis</span>. It uses the <span style="font-weight: bold;">GPT-3.5-Turbo</span> model by default, but you can switch to <span style="font-weight: bold;">GPT-4</span> by making edits in the `main.py` file.
+
 
 **NOTE:** To use JarvisChatGPT, you must have an <span style="font-weight: bold;">OpenAI API key</span>.
 
@@ -11,7 +13,8 @@ JarvisChatGPT is a voice assistant powered by ChatGPT, named <span style="font-s
 2. Run `install.bat` and wait for the installation to complete.
 3. Execute the `Run.bat` file. If it closes immediately, you might have missed a step during setup.
 
-## Getting Started
+
+## Getting Started (2 click install)
 1. Run `install.bat` to install all dependencies.
 2. Launch JarvisChatGPT by running the `Run.bat` file. If it closes immediately, there might be an issue with your configuration.
 
