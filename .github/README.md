@@ -41,6 +41,10 @@ pip install openai SpeechRecognition pyttsx3 pyaudio
 
 - A list of vocal commands is provided when you run the `Run.bat` file.
 
+## Changelog
+- **Added weather support to Jarvis:** Jarvis can now call a weather API and retrieve weather information by himself.
+- You will not need a separate API key for this functionality!
+
 ## Contribute to Development
 Feel free to submit feature requests and report issues for JarvisChatGPT. I'll consider implementing anything that's feasible and interesting.
 
