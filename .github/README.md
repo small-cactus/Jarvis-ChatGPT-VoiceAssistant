@@ -17,6 +17,7 @@ JarvisChatGPT is a voice assistant powered by ChatGPT, named <span style="font-s
 ## Getting Started (2 click install)
 1. Run `install.bat` to install all dependencies.
 2. Launch JarvisChatGPT by running the `Run.bat` file. If it closes immediately, there might be an issue with your configuration.
+3. If it doesn't run you might have to supply a Spotify client ID and client Secret for it to work, info on how to do that is listed in the spotify section.
 
 ## Troubleshooting
 If the `Run.bat` file closes without opening JarvisChatGPT, follow these steps:
