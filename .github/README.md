@@ -26,11 +26,14 @@ If the `Run.bat` file closes without opening JarvisChatGPT, follow these steps:
 ```shell
 python main.py
 ```
-
 If any installations fail during the `install.bat` execution, use the same terminal method mentioned above and run this command:
 ```shell
 pip install openai SpeechRecognition pyttsx3 pyaudio
 ```
+
+1. If you get **errors trying to play music**, either credientials are wrong, or you do not have an **Active spotify session**, to overcome this issue simply play a song on spotify and pause it.
+
+2. If music **playback still does not work**, you either don't have **spotify premium**, or you didn't put the client id and secret in right. Refer to spotify setup for insructions there
 
 ## General Information
 - JarvisChatGPT does not have a token limit. If you ask it to generate a feature film-length script, be prepared to wait for its response. Alternatively, you can close and reopen Jarvis to skip its response.
