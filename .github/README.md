@@ -48,9 +48,35 @@ pip install openai SpeechRecognition pyttsx3 pyaudio
 - A list of vocal commands is provided when you run the `Run.bat` file.
 
 
+# Spotify Client ID and Client Secret Setup
+
+Follow the steps below to obtain your Spotify Client ID and Client Secret:
+
+### Step 1: Create a Spotify Account
+- If you don't already have one, sign up for a Spotify account on [Spotify's website](https://www.spotify.com/).
+
+### Step 2: Access the Spotify Developer Dashboard
+- Navigate to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/).
+- Click on the "Log In" button.
+- Use your Spotify account credentials to sign in.
+
+### Step 3: Create a New App
+- After logging in, click on the "Create an App" button.
+- Provide the following information:
+  - **App Name**: `Jarvis`
+  - **App Description**: `Helpful voice assistant.`
+
+### Step 4: Get Your Client ID and Client Secret
+- You'll be taken to your app's dashboard after creation.
+- Here, you'll find your **Client ID**, put this in the `apikey.py` file where it says to do so.
+- Next to the Client ID is a "Show Client Secret" button. Click it to view your **Client Secret**, also put this in the `apikey.py` file where it says to do so.
+
+
 ## Changelog
 - **Added weather support to Jarvis:** Jarvis can now call a weather API and retrieve weather information by himself.
-- You will not need a separate API key for this functionality!
+- You will not need a separate API key for this functionality.
+- **Added spotify music playback:** Jarvis can now call the spotify API and retrieve spotify songs and play them by himself.
+- Refer to Spotify Clien ID and Client Secret Setup to get it working, don't worry it's free.
 
 ## Contribute to Development
 Feel free to submit feature requests and report issues for JarvisChatGPT. I'll consider implementing anything that's feasible and interesting.
