@@ -1,7 +1,7 @@
 import requests
 import openai
 import json
-from apikey import weather_api_key, DEFAULT_LOCATION, UNIT
+from apikey import weather_api_key, DEFAULT_LOCATION, UNIT, spotify_client_id, spotify_client_secret
 
 def get_current_weather(location=None, unit=UNIT):
     """Get the current weather in a given location and detailed forecast"""
@@ -39,6 +39,26 @@ def get_current_weather(location=None, unit=UNIT):
 import openai
 from apikey import api_key
 
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=spotify_client_id,
+                                               client_secret=spotify_client_secret,
+                                               redirect_uri="http://localhost:8080/callback",
+                                               scope="user-library-read user-modify-playback-state"))
+
+def search_and_play_song(song_name: str):
+    results = sp.search(q=song_name, limit=1)
+    if results and results['tracks'] and results['tracks']['items']:
+        song_uri = results['tracks']['items'][0]['uri']
+        try:
+            sp.start_playback(uris=[song_uri])  
+            return {"message": "Song has been played"}
+        except spotipy.exceptions.SpotifyException:
+            return {"error": "Song has been played"}
+    else:
+        return {"error": "Song has been played"}
+
 import speech_recognition as sr 
 import pyttsx3
 
@@ -52,7 +72,7 @@ for voice in voices:
         engine.setProperty('voice', voice.id)
         break
 
-system_prompt = "You are Jarvis, a concise and helpful assistant. Keep ALL responses as concise as possible. You can get the weather using the function."
+system_prompt = "You are Jarvis, you are a helpful assistant, respond as concise as possible. You can get the weather using the function. You can play songs using the function."
 conversation = [{"role": "system", "content": system_prompt}]
 
 def speak(text):
@@ -73,9 +93,9 @@ def listen():
 
 
 available_functions = {
+    "search_and_play_song": search_and_play_song,
     "get_current_weather": get_current_weather
 }
-
 
 conversation_history = []  
 
@@ -85,7 +105,6 @@ def ask(question):
     if not question:
         return "Sorry, I didn't receive a valid query."
 
-    
     messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": question}]
     if conversation_history:
         messages = conversation_history + [{"role": "user", "content": question}]
@@ -94,20 +113,37 @@ def ask(question):
         
     functions = [
         {
-            "name": "get_current_weather",
-            "description": "Get the current weather data for any given location, defaults to clearwater FL.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "location": {
-                        "type": "string",
-                        "description": "The city and state, e.g. Clearwater, FL",
-                    },
-                    "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
-                },
-                "required": [],
+    "name": "search_and_play_song",
+    "description": "Search for a song on Spotify and return its link",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "song_name": {
+                "type": "string",
+                "description": "The name of the song to search for"
+            }
+        },
+        "required": ["song_name"]
+    }
+},
+{
+    "name": "get_current_weather",
+    "description": "Get the current weather data for any given location, defaults to clearwater FL.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "location": {
+                "type": "string",
+                "description": "The city and state, e.g. Clearwater, FL"
             },
-        }
+            "unit": {
+                "type": "string",
+                "enum": ["celsius", "fahrenheit"]
+            }
+        },
+        "required": []
+    }
+}
     ]
     
     response = openai.ChatCompletion.create(
@@ -123,13 +159,13 @@ def ask(question):
     if response_message.get("function_call"):
         function_name = response_message["function_call"]["name"]
         function_args = json.loads(response_message["function_call"]["arguments"])
-        function_response = get_current_weather(
-            location=function_args.get("location", DEFAULT_LOCATION),
-            unit=function_args.get("unit", "fahrenheit"),
-        )
+        function_to_call = available_functions[function_name]
+        function_response = function_to_call(**function_args)
         
         if not function_response:
             function_response = "Sorry, I couldn't fetch the data."
+        elif isinstance(function_response, dict) and 'error' in function_response:
+            function_response = function_response['error']
 
         messages.append(
             {
@@ -143,7 +179,6 @@ def ask(question):
             messages=messages,
         )  
 
-        
         conversation_history.append(response["choices"][0]["message"])
 
     return response["choices"][0]["message"]["content"]
