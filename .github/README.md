@@ -35,6 +35,8 @@ pip install openai SpeechRecognition pyttsx3 pyaudio
 
 2. If music **playback still does not work**, you either don't have **spotify premium**, or you didn't put the client id and secret in right. Refer to spotify setup for insructions there
 
+1. If the mic isn't working for Jarvis, open control panel, click sound, click recording at the top, then scroll to find the mic you're using, right click, then select make default device.
+
 ## General Information
 - JarvisChatGPT does not have a token limit. If you ask it to generate a feature film-length script, be prepared to wait for its response. Alternatively, you can close and reopen Jarvis to skip its response.
   
