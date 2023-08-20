@@ -51,13 +51,14 @@ def search_and_play_song(song_name: str):
     results = sp.search(q=song_name, limit=1)
     if results and results['tracks'] and results['tracks']['items']:
         song_uri = results['tracks']['items'][0]['uri']
+        song_name = results['tracks']['items'][0]['name']  
         try:
-            sp.start_playback(uris=[song_uri])  
-            return {"message": "Song has been played"}
+            sp.start_playback(uris=[song_uri])
+            return {"message": f"The song '{song_name}' is now playing"}
         except spotipy.exceptions.SpotifyException:
-            return {"error": "Song has been played"}
+            return {"message": "Tell the user they have to open Spotify first before you can play the song."}
     else:
-        return {"error": "Song has been played"}
+        return {"message": "Sorry, I couldn't find the song you requested."}
 
 import speech_recognition as sr 
 import pyttsx3
@@ -72,7 +73,7 @@ for voice in voices:
         engine.setProperty('voice', voice.id)
         break
 
-system_prompt = "You are Jarvis, you are a helpful assistant, respond as concise as possible. You can get the weather using the function. You can play songs using the function."
+system_prompt = "You are Jarvis, you are a helpful assistant, respond as concise as possible. You can get the weather using the function. You can play songs using the function, if you get an error you will tell the user what the error was. If the user asks you for a type of song, you will pick a song you think goes with that type and play it."
 conversation = [{"role": "system", "content": system_prompt}]
 
 def speak(text):
