@@ -47,6 +47,8 @@ pip install openai SpeechRecognition pyttsx3 pyaudio
   
 - A list of vocal commands is provided when you run the `Run.bat` file.
 
+- You need Spotify Premium to use Jarvis's music features.
+
 
 # Spotify Client ID and Client Secret Setup
 
