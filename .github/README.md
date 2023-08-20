@@ -26,11 +26,14 @@ If the `Run.bat` file closes without opening JarvisChatGPT, follow these steps:
 ```shell
 python main.py
 ```
-
 If any installations fail during the `install.bat` execution, use the same terminal method mentioned above and run this command:
 ```shell
 pip install openai SpeechRecognition pyttsx3 pyaudio
 ```
+
+1. If you get **errors trying to play music**, either credientials are wrong, or you do not have an **Active spotify session**, to overcome this issue simply play a song on spotify and pause it.
+
+2. If music **playback still does not work**, you either don't have **spotify premium**, or you didn't put the client id and secret in right. Refer to spotify setup for insructions there
 
 ## General Information
 - JarvisChatGPT does not have a token limit. If you ask it to generate a feature film-length script, be prepared to wait for its response. Alternatively, you can close and reopen Jarvis to skip its response.
@@ -46,6 +49,8 @@ pip install openai SpeechRecognition pyttsx3 pyaudio
 - The wake word works only if it is the first word spoken in a sentence. For instance, "Hey there, Jarvis, who are you?" will NOT trigger a response. However, "Jarvis, who are you?" will work as intended.
   
 - A list of vocal commands is provided when you run the `Run.bat` file.
+
+- You need Spotify Premium to use Jarvis's music features.
 
 
 # Spotify Client ID and Client Secret Setup
@@ -70,6 +75,11 @@ Follow the steps below to obtain your Spotify Client ID and Client Secret:
 - You'll be taken to your app's dashboard after creation.
 - Here, you'll find your **Client ID**, put this in the `apikey.py` file where it says to do so.
 - Next to the Client ID is a "Show Client Secret" button. Click it to view your **Client Secret**, also put this in the `apikey.py` file where it says to do so.
+
+### Step 5: Open Spotify
+- Open Spotify website.
+- Start Jarvis.
+- Ask him to play any song or have him choose.
 
 
 ## Changelog
