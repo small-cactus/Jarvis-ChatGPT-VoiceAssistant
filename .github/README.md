@@ -74,9 +74,9 @@ Follow the steps below to obtain your Spotify Client ID and Client Secret:
 - Next to the Client ID is a "Show Client Secret" button. Click it to view your **Client Secret**, also put this in the `apikey.py` file where it says to do so.
 
 ### Step 5: Open Spotify
--Open Spotify website.
--Start Jarvis.
--Ask him to play any song or have him choose.
+- Open Spotify website.
+- Start Jarvis.
+- Ask him to play any song or have him choose.
 
 
 ## Changelog
