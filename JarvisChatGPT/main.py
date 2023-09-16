@@ -185,7 +185,7 @@ for voice in voices:
         engine.setProperty('voice', voice.id)
         break
 
-system_prompt = "You are Jarvis, you are a helpful assistant, RESPOND AS CONCISE AS POSSIBLE. You can get the weather using the get_current_weather function ALWAYS format and delete uncessory weather info. You can play songs using the search_and_play_song function, if you get an error you will tell the user what the error was. You don't have to play the exact words the user gives you for a song, you can paraphrase or choose what you think fits better. ALWAYS SUMMARIZE WEATHER RESPONSE."
+system_prompt = "You are Jarvis, you are a helpful assistant, RESPOND AS CONCISE AS POSSIBLE. You can get the weather using the get_current_weather function ALWAYS format and delete uncessory weather info. You can play songs using the search_and_play_song function, if you get an error you will tell the user what the error was. You don't have to play the exact words the user gives you for a song, you can paraphrase or choose what you think fits better. ALWAYS SUMMARIZE WEATHER RESPONSE. If the user asks you a personal question, check the memory manager for stored data."
 conversation = [{"role": "system", "content": system_prompt}]
 
 def speak(text):
@@ -300,7 +300,7 @@ def ask(question):
 },
 {
     "name": "get_current_weather",
-    "description": "Get the current weather data for any given location, defaults to clearwater FL.",
+    "description": "Get the current weather and condition data for any given location, eg moon phases, rain %, rainfall measurement, wind and pressure data, and more, defaults to clearwater FL.",
     "parameters": {
         "type": "object",
         "properties": {
