@@ -89,7 +89,13 @@ Follow the steps below to obtain your Spotify Client ID and Client Secret:
 - **Added weather support to Jarvis:** Jarvis can now call a weather API and retrieve weather information by himself.
 - You will not need a separate API key for this functionality.
 - **Added spotify music playback:** Jarvis can now call the spotify API and retrieve spotify songs and play them by himself.
-- Refer to Spotify Clien ID and Client Secret Setup to get it working, don't worry it's free.
+- Refer to Spotify Client ID and Client Secret Setup to get it working, don't worry it's free.
+- **Added calulator:** Jarvis can now use a calculator by himself to get 100% accurate math results.
+- **Added permanent memory:** You can now ask Jarvis to remember something and he will never forget it, even if you close and open Jarvis again, you can also ask him
+to forget his memory and he will delete all items.
+- **Added date & time support:** When asked, Jarvis can now find the current date and time.
+- **Increased weather data given:** Jarvis now has access to triple the weather data he had before, this means you can ask about
+ tide info, moon phases, literally anything.
 
 ## Contribute to Development
 Feel free to submit feature requests and report issues for JarvisChatGPT. I'll consider implementing anything that's feasible and interesting.
