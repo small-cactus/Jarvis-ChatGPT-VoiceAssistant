@@ -1,7 +1,10 @@
 import requests
 import openai
 import json
+import math
+import os
 from apikey import weather_api_key, DEFAULT_LOCATION, UNIT, spotify_client_id, spotify_client_secret
+from datetime import datetime
 
 def get_current_weather(location=None, unit=UNIT):
     """Get the current weather in a given location and detailed forecast"""
@@ -20,21 +23,130 @@ def get_current_weather(location=None, unit=UNIT):
 
     if response.status_code == 200 and 'current' in data and 'forecast' in data and data['forecast']['forecastday']:
         weather_info = {
-            "location": location,
-            "temperature": data["current"]["temp_f"],
-            "unit": "fahrenheit",
-            "forecast": data["current"]["condition"]["text"],
-            "will_it_rain": data['forecast']['forecastday'][0]['day']['daily_will_it_rain'],
-            "chance_of_rain": data['forecast']['forecastday'][0]['day']['daily_chance_of_rain'],
-            "uv": data["current"]["uv"]  
+        "location": location,
+        "temperature": data["current"]["temp_f"],
+        "feels_like": data["current"]["feelslike_f"],
+        "max_temp": data['forecast']['forecastday'][0]['day']['maxtemp_f'],
+        "min_temp": data['forecast']['forecastday'][0]['day']['mintemp_f'],
+        "unit": "fahrenheit",
+        "forecast": data["current"]["condition"]["text"],
+        "wind_speed": data["current"]["wind_mph"],
+        "wind_direction": data["current"]["wind_dir"],
+        "humidity": data["current"]["humidity"],
+        "pressure": data["current"]["pressure_in"],
+        "rain_inches": data["current"]["precip_in"],
+        "sunrise": data['forecast']['forecastday'][0]['astro']['sunrise'],
+        "sunset": data['forecast']['forecastday'][0]['astro']['sunset'],
+        "moonrise": data['forecast']['forecastday'][0]['astro']['moonrise'],
+        "moonset": data['forecast']['forecastday'][0]['astro']['moonset'],
+        "moon_phase": data['forecast']['forecastday'][0]['astro']['moon_phase'],
+        "visibility": data["current"]["vis_miles"],
+        "will_it_rain": data['forecast']['forecastday'][0]['day']['daily_will_it_rain'],
+        "chance_of_rain": data['forecast']['forecastday'][0]['day']['daily_chance_of_rain'],
+        "uv": data["current"]["uv"]  
         }
     else:
         weather_info = {
-            "error": "Unable to retrieve the current weather."
+            "error": "Unable to retrieve the current weather. Try again in a few seconds."
         }
 
     return weather_info
 
+def perform_math(operation, operands):
+    """Perform a math operation based on the given operation and operands"""
+    if not operands:
+        return {"error": "No operands provided"}
+
+    result = None
+    if operation == "add":
+        result = sum(operands)
+    elif operation == "subtract":
+        result = operands[0] - sum(operands[1:])
+    elif operation == "multiply":
+        result = 1
+        for op in operands:
+            result *= op
+    elif operation == "divide":
+        result = operands[0] / operands[1] if operands[1] != 0 else "Undefined (division by zero)"
+    elif operation == "power":
+        result = pow(operands[0], operands[1])
+    elif operation == "square_root":
+        result = math.sqrt(operands[0])
+
+    return {"result": result}
+
+memory_file_path = None
+
+def get_memory_file_path():
+    """Return the full path to the memory.txt file. Create the file if it doesn't exist."""
+    global memory_file_path
+
+    if memory_file_path:
+        return memory_file_path
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    memory_file_path = os.path.join(current_dir, "memory.txt")
+
+    if not os.path.exists(memory_file_path):
+        with open(memory_file_path, 'w') as file:
+            json.dump([], file)
+
+    return memory_file_path
+
+def memory_manager(operation, data=None):
+    """Store, retrieve, or clear data in a file"""
+    file_path = get_memory_file_path()
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if operation == "store":
+        with open(file_path, 'r') as file:
+            memory = json.load(file)
+        
+        memory.append({
+            "data": data,
+            "store_time": current_time,
+            "retrieve_time": None
+        })
+
+        with open(file_path, 'w') as file:
+            json.dump(memory, file)
+
+        return {"message": f"Data stored successfully on {current_time}"}
+
+    elif operation == "retrieve":
+        with open(file_path, 'r') as file:
+            memory = json.load(file)
+
+        if not memory:
+            return {"message": "No data stored yet"}
+
+        for item in memory:
+            item["retrieve_time"] = current_time
+
+        with open(file_path, 'w') as file:
+            json.dump(memory, file)
+
+        retrieved_data = [{"data": item["data"], "store_time": item["store_time"], "retrieve_time": current_time} for item in memory]
+        return {"message": f"Data retrieved on {current_time}", "data": retrieved_data}
+
+    elif operation == "clear":
+        with open(file_path, 'w') as file:
+            json.dump([], file)
+        return {"message": "Memory cleared successfully"}
+
+def get_current_datetime(mode="date & time"):
+    """Get the current date and/or time"""
+    now = datetime.now()
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%I:%M:%S %p")  
+    
+    if mode == "date":
+        return {"datetime": date_str}
+    elif mode == "time":
+        return {"datetime": time_str}
+    else:
+        return {"datetime": f"{date_str} {time_str}"}
 
 import openai
 from apikey import api_key
@@ -73,7 +185,7 @@ for voice in voices:
         engine.setProperty('voice', voice.id)
         break
 
-system_prompt = "You are Jarvis, you are a helpful assistant, respond as concise as possible. You can get the weather using the function. You can play songs using the function, if you get an error you will tell the user what the error was. If the user asks you for a type of song, you will pick a song you think goes with that type and play it."
+system_prompt = "You are Jarvis, you are a helpful assistant, RESPOND AS CONCISE AS POSSIBLE. You can get the weather using the get_current_weather function ALWAYS format and delete uncessory weather info. You can play songs using the search_and_play_song function, if you get an error you will tell the user what the error was. You don't have to play the exact words the user gives you for a song, you can paraphrase or choose what you think fits better. ALWAYS SUMMARIZE WEATHER RESPONSE."
 conversation = [{"role": "system", "content": system_prompt}]
 
 def speak(text):
@@ -95,7 +207,10 @@ def listen():
 
 available_functions = {
     "search_and_play_song": search_and_play_song,
-    "get_current_weather": get_current_weather
+    "get_current_weather": get_current_weather,
+    "get_current_datetime": get_current_datetime,
+    "perform_math": perform_math,
+    "memory_manager": memory_manager
 }
 
 conversation_history = []  
@@ -115,16 +230,72 @@ def ask(question):
     functions = [
         {
     "name": "search_and_play_song",
-    "description": "Search for a song on Spotify and return its link",
+    "description": "Search for a song by name on Spotify and play it",
     "parameters": {
         "type": "object",
         "properties": {
             "song_name": {
                 "type": "string",
-                "description": "The name of the song to search for"
+                "description": "The name of the song to search for (can be anything, doesn't have to be exactly what the user typed)"
             }
         },
         "required": ["song_name"]
+    }
+},
+{
+    "name": "get_current_datetime",
+    "description": "Get the current date and/or time",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "mode": {
+                "type": "string",
+                "enum": ["date", "time", "date & time"],
+                "description": "Choose whether to get date, time, or both",
+            }
+        },
+        "required": ["mode"],
+    },
+},
+{
+    "name": "perform_math",
+    "description": "Perform a math operation",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "operation": {
+                "type": "string",
+                "enum": ["add", "subtract", "multiply", "divide", "power", "square_root"],
+                "description": "The math operation to perform"
+            },
+            "operands": {
+                "type": "array",
+                "items": {
+                    "type": "number"
+                },
+                "description": "The numbers to perform the operation on"
+            }
+        },
+        "required": ["operation", "operands"]
+    }
+},
+{
+    "name": "memory_manager",
+    "description": "Store, retrieve, or clear data in a file",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "operation": {
+                "type": "string",
+                "enum": ["store", "retrieve", "clear"],
+                "description": "Operation to perform"
+            },
+            "data": {
+                "type": "string",
+                "description": "The data to store, in this format: User asked me to remember... (required for 'store' operation)"
+            }
+        },
+        "required": ["operation"]
     }
 },
 {
