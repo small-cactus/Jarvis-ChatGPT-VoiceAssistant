@@ -17,6 +17,7 @@ JarvisChatGPT is a voice assistant powered by ChatGPT, named <span style="font-s
 ## Getting Started (2 click install)
 1. Run `install.bat` to install all dependencies.
 2. Launch JarvisChatGPT by running the `Run.bat` file. If it closes immediately, there might be an issue with your configuration.
+3. If it doesn't run you might have to supply a Spotify client ID and client Secret for it to work, info on how to do that is listed in the spotify section.
 
 ## Troubleshooting
 If the `Run.bat` file closes without opening JarvisChatGPT, follow these steps:
@@ -34,6 +35,8 @@ pip install openai SpeechRecognition pyttsx3 pyaudio
 1. If you get **errors trying to play music**, either credientials are wrong, or you do not have an **Active spotify session**, to overcome this issue simply play a song on spotify and pause it.
 
 2. If music **playback still does not work**, you either don't have **spotify premium**, or you didn't put the client id and secret in right. Refer to spotify setup for insructions there
+
+1. If the mic isn't working for Jarvis, open control panel, click sound, click recording at the top, then scroll to find the mic you're using, right click, then select make default device.
 
 ## General Information
 - JarvisChatGPT does not have a token limit. If you ask it to generate a feature film-length script, be prepared to wait for its response. Alternatively, you can close and reopen Jarvis to skip its response.
@@ -86,7 +89,13 @@ Follow the steps below to obtain your Spotify Client ID and Client Secret:
 - **Added weather support to Jarvis:** Jarvis can now call a weather API and retrieve weather information by himself.
 - You will not need a separate API key for this functionality.
 - **Added spotify music playback:** Jarvis can now call the spotify API and retrieve spotify songs and play them by himself.
-- Refer to Spotify Clien ID and Client Secret Setup to get it working, don't worry it's free.
+- Refer to Spotify Client ID and Client Secret Setup to get it working, don't worry it's free.
+- **Added calulator:** Jarvis can now use a calculator by himself to get 100% accurate math results.
+- **Added permanent memory:** You can now ask Jarvis to remember something and he will never forget it, even if you close and open Jarvis again, you can also ask him
+to forget his memory and he will delete all items.
+- **Added date & time support:** When asked, Jarvis can now find the current date and time.
+- **Increased weather data given:** Jarvis now has access to triple the weather data he had before, this means you can ask about
+ tide info, moon phases, literally anything.
 
 ## Contribute to Development
 Feel free to submit feature requests and report issues for JarvisChatGPT. I'll consider implementing anything that's feasible and interesting.
