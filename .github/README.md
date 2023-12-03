@@ -1,6 +1,6 @@
 # 🎙️ JarvisChatGPT
 
-**JarvisChatGPT**, affectionately known as **Jarvis**, is a state-of-the-art voice assistant powered by the same techonology as ChatGPT. It's built to be simple.
+**JarvisChatGPT**, or **Jarvis**, is a state-of-the-art voice assistant powered by the same techonology as ChatGPT. It's built to be simple and conversational.
 
 By default, Jarvis utilizes the **GPT-3.5-Turbo** model. However, if you fancy an upgrade, you can easily transition to **GPT-4** via the `main.py` file.
 
