@@ -2,6 +2,8 @@
 
 **JarvisChatGPT**, or **Jarvis**, is your very own AI voice assistant powered by the same techonology as ChatGPT using OpenAI's API. It's built to be simple and conversational just like the Jarvis AI from the movies. Think of it like Siri or Alexa, but WAY better.
 
+**Last Updated**: December 2th, 2023 (12-2-23)
+
 By default, Jarvis utilizes the **GPT-3.5-Turbo** API model. However, if you fancy an upgrade, you can easily transition to **GPT-4** via the `main.py` file.
 
 ⚠️ **Important**: To harness the power of Jarvis, you'll need an **OpenAI API key**. Insert this key in the `apikey.py` file.
