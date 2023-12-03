@@ -4,6 +4,8 @@
 
 **Last Updated**: December 2th, 2023 (12-2-23)
 
+**OS Support**: Windows, MacOS later in the future.
+
 By default, Jarvis utilizes the **GPT-3.5-Turbo** API model. However, if you fancy an upgrade, you can easily transition to **GPT-4** via the `main.py` file.
 
 ⚠️ **Important**: To harness the power of Jarvis, you'll need an **OpenAI API key**. Insert this key in the `apikey.py` file.
