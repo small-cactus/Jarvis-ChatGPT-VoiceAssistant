@@ -26,7 +26,7 @@ By default, Jarvis utilizes the **GPT-3.5-Turbo** API model. However, if you fan
   ```
   Then run:
   ``` shell
-  pip install openai SpeechRecognition pyttsx3 pyaudio spotipy
+  pip install openai==0.28.1 SpeechRecognition pyttsx3 pyaudio spotipy
   ```
 - **Spotify Playback Errors**: Ensure you have an active Spotify session and check if you've entered correct Spotify credentials. Also, a premium account is a must-have or it won't work.
 - **Mic Troubles**: Navigate to the control panel, access sound settings, select the recording tab, and set your mic as the default device.
