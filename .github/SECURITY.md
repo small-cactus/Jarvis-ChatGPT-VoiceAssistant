@@ -8,6 +8,12 @@ I take security seriously in JarvisChatGPT to ensure the safety and privacy of o
 
 - **OpenAI API**: Interaction with the OpenAI API for generating responses is managed securely through OpenAI's infrastructure. Data sent to the API is subject to OpenAI's own security measures and practices.
 
+- **Outgoing data**: The only data being sent outside your computer is the response to OpenAI's servers, and what song you wanted to play on Spotify through Spotify's servers. Both of these are sent securely through each of their API's and they both have user identification keys that you provided to use it. Weather information is requested through an API but no data is sent, it just asks for all weather data and Jarvis formats it later, this feature also uses an API key of my own and it is secure, everything is secure and privite.
+
+- **Other features**: All other features not mentioned here are 100% local on your computer, all memory files are stored and created on device, all User and Jarvis messages are deleted after closing the app, all voice files are deleted after being played, all speech is generated on device, all recorded speech is deleted after the listening message disappears, and all calculations are not saved anywhere.
+
+- **NOTE**: If you share your folder with Jarvis, even if you deleted the api key out of the api key file, it will still show up in cache and anyone else could use it and read it, to fix this, deleted pycache from the folder and you're all set.
+
 ## Reporting Security Vulnerabilities
 
 If you discover a security vulnerability in JarvisChatGPT, I encourage you to responsibly disclose it by submitting an issue through GitHub's issue tracker.
