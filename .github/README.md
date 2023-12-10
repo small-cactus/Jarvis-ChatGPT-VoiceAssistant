@@ -51,6 +51,7 @@ Start by [creating or accessing your Spotify account](https://www.spotify.com/).
 - Fill in:
   - **App Name**: `Jarvis`
   - **App Description**: `Helpful voice assistant`
+  - **Redirect URL**: `http://localhost:8080/callback`
 
 ### 4️⃣ Get Your Client ID and Client Secret
 - On your app's dashboard, locate your **Client ID** and enter it in the `apikey.py` file.
