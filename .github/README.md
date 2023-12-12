@@ -2,7 +2,7 @@
 
 **JarvisChatGPT**, or **Jarvis**, is your very own AI voice assistant powered by the same techonology as ChatGPT using OpenAI's API. It's built to be simple and conversational just like the Jarvis AI from the movies. Think of it like Siri or Alexa, but WAY better.
 
-**Last Updated**: December 11th, 2023 (12-11-23)
+**Last Updated**: December 12th, 2023 (12-12-23)
 
 **OS Support**: Windows, MacOS later in the future.
 
@@ -14,6 +14,11 @@ By default, Jarvis utilizes the **GPT-3.5-Turbo** API model. However, if you fan
 1. **Setup Python**: Ensure you have Python installed. If not, [download Python](https://www.python.org/downloads/).
 2. **Install Dependencies**: Simply run `install.bat`.
 3. **Launch Jarvis**: Run `Run.bat`. Should you encounter any hiccups, dive into the troubleshooting section.
+4. **Have Fun!**
+
+## 💬 Share with your friends
+  The people that clone, download, and view jarvis are what makes this possible for me to not lose motivation. *Please share Jarvis* with a link to this page! **Everyone has permission to share this anywhere they want**, post my projects anywhere you want!!
+#
 
 ## 🔍 Troubleshooting
 - **Initial Issues**: If `Run.bat` closes abruptly, manually open a terminal in the Jarvis directory and input:
