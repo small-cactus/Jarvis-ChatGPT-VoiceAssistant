@@ -1,10 +1,18 @@
 # 🎙️ JarvisChatGPT
 
-**JarvisChatGPT**, or **Jarvis**, is your very own AI voice assistant powered by the same techonology as ChatGPT using OpenAI's API. It's built to be simple and conversational just like the Jarvis AI from the movies. Think of it like Siri or Alexa, but WAY better.
+**JarvisChatGPT**, or simply **Jarvis**, is your cutting-edge AI voice assistant, leveraging the sophisticated technology behind ChatGPT and OpenAI's API for a user experience that far surpasses conventional assistants like Siri or Alexa. It's designed to be both simple for casual interaction and powerful for more complex tasks, reminiscent of the Jarvis AI from popular films.
 
 **Last Updated**: December 12th, 2023 (12-12-23)
 
-**OS Support**: Windows, MacOS later in the future.
+**Important Update**: We've moved on from the old repository and shifted our focus to a significantly improved version, known as **M.I.L.E.S**. Although the original **JarvisChatGPT** repo is not actively updated, we're still committed to addressing any issues that arise, provided there isn't an available workaround. 
+
+For a better, more refined AI voice assistant experience, especially tailored for Mac users, check out our new and enhanced repository:
+
+🌟 **[Visit the updated M.I.L.E.S repository](https://github.com/small-cactus/M.I.L.E.S)** 🌟
+
+This latest version promises an enhanced performance with an installation process that is notably straightforward on MacOS. Windows users, please be informed that while support exists, the installation process can be significantly more challenging and might not succeed in every case. We primarily recommend this for Mac users, though Windows users willing to navigate the complexities are welcome to try.
+
+**OS Support**: Optimized for MacOS. Windows compatibility exists but with potential installation challenges.
 
 By default, Jarvis utilizes the **GPT-3.5-Turbo** API model. However, if you fancy an upgrade, you can easily transition to **GPT-4** via the `main.py` file.
 
